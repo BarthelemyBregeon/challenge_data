@@ -13,3 +13,4 @@ for i in index:
         
 list_corrupted_patches = np.asarray(list_corrupted_patches)
 np.save('X_train/_index_corr.npy',list_corrupted_patches)
+np.save('Y_train/_index_corr.npy',list_corrupted_patches)

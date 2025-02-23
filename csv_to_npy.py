@@ -15,13 +15,7 @@ for chunk in Y:
         y = np.squeeze(y,0)
         file_path = y[0]
         y = np.reshape(y[1:],[160,272]).astype(np.int16)
-        #x = np.load('X_Train/'+file_path+'.npy')
-        #x = np.load('X_Test/'+file_path+'.npy')
-        #plt.imshow(x)
-        plt.imshow(y,cmap='rainbow')
-        if y[-1,0] == -1:
-            plt.title("Attention")
-        plt.show()
+        np.save('Y_train/'+file_path,y)
     i+=1
         
 

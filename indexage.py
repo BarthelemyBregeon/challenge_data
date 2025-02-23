@@ -15,3 +15,4 @@ for i in range(onlyfiles.shape[0]):
 onlyfiles = onlyfiles[np.argsort(sorting)]
 
 np.save('X_Train/_index.npy',onlyfiles)
+np.save('Y_Train/_index.npy',onlyfiles)
