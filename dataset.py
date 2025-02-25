@@ -15,19 +15,28 @@ class patch_dataset(Dataset):
             self.X = torch.empty((self.len,160,272),dtype=torch.float64)
             self.Y = torch.zeros((self.len,160,272,3),dtype=torch.float64)
             
-            for i in self.index:
-                self.X[i] = np.load(self.file_path_X+'/'+i)
-                
-                y = np.load(self.file_path_Y+'/'+i)
-                self.Y[i,j,k,y[j,k]] = 1 # faire fonctionner un truc comme ça
+            for i, file in zip(range(self.len),self.index):
+                self.X[i] = torch.from_numpy(np.load(self.file_path_X+'/'+file))
+               
+                y = torch.from_numpy(np.load(self.file_path_Y+'/'+file))
+                self.Y[i] = torch.nn.functional.one_hot(y.to(torch.int64), num_classes=3)
                 
     
     def __len__(self):
         return self.len
     
-    def getitem(self,i):
+    def __getitem__(self,i):
         if self.load_in_ram :
             return self.X[i],self.Y[i]
         else :
-            return np.load(self.file_path_X+'/'+i),np.load(self.file_path_Y+'/'+i)# one hot encoding needed
+            x = torch.from_numpy(np.load(self.file_path_X+'/'+index[i]))
+            y = torch.from_numpy(np.load(self.file_path_Y+'/'+index[i]))
+            y = torch.nn.functional.one_hot(y.to(torch.int64), num_classes=3)
+            return x,y
+        
+file_path_X = 'X_train'
+file_path_Y = 'Y_train'
+index = np.load('X_train/_index_good.npy')
+
+dataset = patch_dataset(file_path_X, file_path_Y,index,load_in_ram=False)
         
