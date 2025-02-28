@@ -11,9 +11,9 @@ class basic_FCN(nn.Module):
         # bottleneck
         self.conv3 = nn.Conv2d(64, 128, kernel_size=3, stride=1, padding=1)
         # decoder
-        self.conv4 = nn.ConvTranspose2d(128, 64, kernel_size=3, stride=1, padding=1)
-        self.conv5 = nn.ConvTranspose2d(64, 32, kernel_size=3, stride=1, padding=1)
-        self.conv6 = nn.ConvTranspose2d(32, input_channels, kernel_size=1, stride=1, padding=0)
+        self.conv4 = nn.ConvTranspose2d(128, 64, kernel_size=3, stride=2, padding=1, output_padding=1)
+        self.conv5 = nn.ConvTranspose2d(64, 32, kernel_size=3, stride=2, padding=1, output_padding=1)
+        self.conv6 = nn.ConvTranspose2d(32, 3, kernel_size=1, stride=1, padding=0)
     
     def forward(self, x):
         x = F.relu(self.conv1(x))
@@ -24,7 +24,7 @@ class basic_FCN(nn.Module):
         x = F.relu(self.conv4(x))
         x = F.relu(self.conv5(x))
         x = self.conv6(x)
-        return torch.sigmoid(x)
+        return x
 
 # U-net from scratch
 class UNet(nn.Module):

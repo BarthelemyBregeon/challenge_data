@@ -4,7 +4,7 @@ from torch.utils.data import Dataset, DataLoader
 
 class patch_dataset(Dataset):
     
-    def __init__(self, file_path_X, file_path_Y, index, load_in_ram = False):
+    def __init__(self, file_path_X, file_path_Y, index, numtype=torch.float64, load_in_ram = False):
         self.index = index
         self.file_path_X = file_path_X
         self.file_path_Y = file_path_Y
@@ -12,8 +12,8 @@ class patch_dataset(Dataset):
         self.load_in_ram = load_in_ram
         
         if self.load_in_ram :
-            self.X = torch.empty((self.len,160,272),dtype=torch.float64)
-            self.Y = torch.zeros((self.len,160,272,3),dtype=torch.float64)
+            self.X = torch.empty((self.len,160,272),dtype=numtype)
+            self.Y = torch.zeros((self.len,160,272,3),dtype=numtype)
             
             for i, file in zip(range(self.len),self.index):
                 self.X[i] = torch.from_numpy(np.load(self.file_path_X+'/'+file))
@@ -38,5 +38,5 @@ file_path_X = 'X_train'
 file_path_Y = 'Y_train'
 index = np.load('X_train/_index_good.npy')
 
-dataset = patch_dataset(file_path_X, file_path_Y,index,load_in_ram=False)
+dataset = patch_dataset(file_path_X, file_path_Y,index,load_in_ram=True)
         
