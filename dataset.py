@@ -10,6 +10,7 @@ class patch_dataset(Dataset):
         self.file_path_Y = file_path_Y
         self.len = index.shape[0]
         self.load_in_ram = load_in_ram
+        self.numtype = numtype
         
         if self.load_in_ram :
             self.X = torch.empty((self.len,160,272),dtype=numtype)
@@ -34,16 +35,16 @@ class patch_dataset(Dataset):
         if self.load_in_ram :
             return self.X[i].unsqueeze(0),self.Y[i].permute(2, 0, 1)
         else :
-            x = torch.from_numpy(np.load(self.file_path_X+'/'+index[i]))
+            x = torch.from_numpy(np.load(self.file_path_X+'/'+self.index[i]))
             if x.shape[1] == 160:
                 x = torch.nn.functional.pad(x, (0,272-160), value=0)
                 
-            y = torch.from_numpy(np.load(self.file_path_Y+'/'+index[i]))
+            y = torch.from_numpy(np.load(self.file_path_Y+'/'+self.index[i]))
             if y.shape[1] == 160:
                 y = torch.nn.functional.pad(y, (0,272-160), value=0)
             y = torch.nn.functional.one_hot(y.to(torch.int64), num_classes=3)
             
-            return x.unsqueeze(0),y.permute(2, 0, 1)
+            return x.unsqueeze(0).to(self.numtype),y.permute(2, 0, 1).to(self.numtype)
     
         
     
