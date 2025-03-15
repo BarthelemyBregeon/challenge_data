@@ -24,11 +24,15 @@ dataloader = DataLoader(dataset, batch_size, shuffle=True)
 model = UNet(in_channels=1, out_channels=3, features=[32, 64, 128, 256])
 #model.to('mps')
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
-loss_fn = criterion = torch.nn.CrossEntropyLoss()
 
-for i in range(10):
-    train(model, optimizer, loss_fn, dataloader, device='cpu', epochs=5)
-    torch.save(model.state_dict(),'models/pretrained_Unet.pth')
+#loss_fn = criterion = torch.nn.CrossEntropyLoss()
 
-#loss_fn = criterion = custom_loss(1e-2)
-#train(model, optimizer, loss_fn, dataloader, device='cpu', epochs=2)
+#for i in range(10):
+#    train(model, optimizer, loss_fn, dataloader, device='cpu', epochs=5)
+#    torch.save(model.state_dict(),'models/pretrained_Unet.pth')
+
+model.load_state_dict(torch.load('models/pretrained_Unet.pth', weights_only=True))
+
+loss_fn = criterion = custom_loss(1e-2)
+train(model, optimizer, loss_fn, dataloader, device='cpu', epochs=5)
+torch.save(model.state_dict(),'models/custom_loss_Unet.pth')

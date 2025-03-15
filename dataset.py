@@ -13,8 +13,8 @@ class patch_dataset(Dataset):
         self.numtype = numtype
         
         if self.load_in_ram :
-            self.X = torch.empty((self.len,160,272),dtype=numtype)
-            self.Y = torch.zeros((self.len,160,272,3),dtype=numtype)
+            self.X = torch.empty((self.len,160,272),dtype=self.numtype)
+            self.Y = torch.zeros((self.len,160,272,3),dtype=self.numtype)
             
             for i, file in zip(range(self.len),self.index):
                 x = torch.from_numpy(np.load(self.file_path_X+'/'+file))
@@ -55,9 +55,11 @@ class patch_dataset_test(Dataset):
         self.file_path_X = file_path_X
         self.len = index.shape[0]
         self.load_in_ram = load_in_ram
+        self.index = index
+        self.numtype = numtype
         
         if self.load_in_ram :
-            self.X = torch.empty((self.len,160,272),dtype=numtype)
+            self.X = torch.empty((self.len,160,272),dtype=self.numtype)
             
             for i, file in zip(range(self.len),self.index):
                 x = torch.from_numpy(np.load(self.file_path_X+'/'+file))
@@ -73,7 +75,7 @@ class patch_dataset_test(Dataset):
         if self.load_in_ram :
             return self.X[i].unsqueeze(0)
         else :
-            x = torch.from_numpy(np.load(self.file_path_X+'/'+index[i]))
+            x = torch.from_numpy(np.load(self.file_path_X+'/'+self.index[i])).to(self.numtype)
             return x.unsqueeze(0)
         
 file_path_X = 'X_train'

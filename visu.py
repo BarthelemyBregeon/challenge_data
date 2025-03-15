@@ -2,8 +2,8 @@ import numpy as np
 from matplotlib import pyplot as plt
 import torch
 
-index = np.load("Y_train/_index_corr.npy")
-for i in index:
+index = np.load("Y_train/_index_incomp.npy")
+for i in index[1:]:
 
     colors = np.array([[255, 0, 0], [0, 255, 0], [0, 0, 255]])  # Red, Green, Blue
 
@@ -18,8 +18,12 @@ for i in index:
 
     
     axs[1].imshow(y)
-    axs[1].set_title('Ground Truth')
+    axs[1].set_title('Segmentation mask')
+    
+    plt.show()
 
-
+    plt.plot(np.load("X_train/"+i)[5])
 
     plt.show()
+    
+    break
