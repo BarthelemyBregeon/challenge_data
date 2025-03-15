@@ -1,6 +1,7 @@
 import numpy as np
 import torch
 from torch.utils.data import Dataset
+import torch.nn.functional as F
 
 class patch_dataset(Dataset):
     
@@ -74,6 +75,8 @@ class patch_dataset_test(Dataset):
         else :
             x = torch.from_numpy(np.load(self.file_path_X+'/'+index[i]))
             return x.unsqueeze(0)
+    
+
         
 file_path_X = 'X_train'
 file_path_Y = 'Y_train'
