@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-"""Y = pd.read_csv('Y_train.csv', sep=',', header=None, chunksize=1)
+Y = pd.read_csv('Y_train.csv', sep=',', header=None, chunksize=1)
 
 i = 0
 for chunk in Y:
@@ -19,10 +19,10 @@ for chunk in Y:
         else:
             y = np.reshape(y[1:],[160,272]).astype(np.int16)
             np.save('Y_train/'+file_path,y)
-    i+=1"""
+    i+=1
     
     
-Y = pd.read_csv('submission_csv_file_random_example.csv', sep=',', header=None, chunksize=1)
+"""Y = pd.read_csv('submission_csv_file_random_example.csv', sep=',', header=None, chunksize=1)
 
 i = 0
 index = []
@@ -40,6 +40,6 @@ for chunk in Y:
 
 index = np.asarray(index)
 print(index)
-np.save('X_test/_index.npy',index)     
+np.save('X_test/_index.npy',index)     """
 
 
